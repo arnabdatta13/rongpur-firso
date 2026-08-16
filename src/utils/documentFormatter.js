@@ -1,5 +1,6 @@
 /**
- * Formats the registration state into the exact Firestore document schema requested by the user
+ * Formats the registration state into the exact Firestore document schema requested by the user.
+ * If refer code is left blank, referCode defaults to "Rongpur-UA" in the database.
  */
 export function formatFirestoreDocument(registration, newRegId, calculatedFeeObj) {
   const leader = registration.leader || {};
@@ -34,9 +35,19 @@ export function formatFirestoreDocument(registration, newRegId, calculatedFeeObj
     registrationType = "entrepreneurship";
   }
 
-  // Stored referCode (e.g. "RONGPUR-UA TAHSIN")
+  // Stored referCode logic:
+  // If participant typed a referral code, map to "RONGPUR-UA <CODE>" (or resolved storedCode).
+  // If participant left referral code blank, ALWAYS save "Rongpur-UA" in database.
   const enteredReferral = (registration.referralCodeEntered || "").trim().toUpperCase();
-  const referCode = registration.referralCode || (enteredReferral ? `RONGPUR-UA ${enteredReferral}` : "");
+  let referCode = registration.referralCode;
+
+  if (!referCode || referCode.trim() === "") {
+    if (enteredReferral) {
+      referCode = `RONGPUR-UA ${enteredReferral}`;
+    } else {
+      referCode = "Rongpur-UA";
+    }
+  }
 
   return {
     registrationId: newRegId,

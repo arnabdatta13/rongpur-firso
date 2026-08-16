@@ -4,10 +4,10 @@ import { RONGPUR_REFERRAL_CODES } from "../data/referralCodes";
 
 /**
  * Resolves participant-entered referral code to internal database referral value.
- * Accepts ANY input referral code without requiring "CA-" prefix,
- * and automatically maps it to "RONGPUR-UA <CODE>" for database storage.
+ * If blank, defaults storedCode to "Rongpur-UA".
+ * If provided, maps to "RONGPUR-UA <CODE>".
  * 
- * @param {string} inputCode - Code typed by participant (e.g. "TAHSIN", "CA-TAHSIN", "UIU2026")
+ * @param {string} inputCode - Code typed by participant (e.g. "", "TAHSIN", "CA-TAHSIN")
  * @returns {Promise<{ isValid: boolean, publicCode: string, storedCode: string, division: string, error?: string }>}
  */
 export async function resolveReferralCode(inputCode) {
@@ -15,7 +15,7 @@ export async function resolveReferralCode(inputCode) {
     return {
       isValid: true,
       publicCode: "",
-      storedCode: "",
+      storedCode: "Rongpur-UA",
       division: "Rongpur"
     };
   }
@@ -58,7 +58,7 @@ export async function resolveReferralCode(inputCode) {
     }
   }
 
-  // 3. ANY referral code typed by the user is valid and automatically assigned "RONGPUR-UA <CODE>" in DB
+  // 3. Any referral code entered maps to "RONGPUR-UA <CODE>" in DB
   return {
     isValid: true,
     publicCode: cleanInput,

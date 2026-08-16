@@ -38,7 +38,7 @@ const INITIAL_REGISTRATION_STATE = {
   },
   teamMembers: [],
   referralCodeEntered: "",
-  referralCode: "",
+  referralCode: "Rongpur-UA",
   referralDivision: "Rongpur",
   payment: {
     method: "bKash",
@@ -144,7 +144,7 @@ export default function App() {
       discountPercent: registration.promo?.discountPercent || 0
     });
 
-    // Generate exact document schema requested by user
+    // Format exact Firestore document schema
     const formattedDoc = formatFirestoreDocument(registration, newRegId, calculatedFeeObj);
 
     let isSavedLocally = false;
@@ -177,7 +177,6 @@ export default function App() {
       console.warn("LocalStorage save error:", e);
     }
 
-    // Retain full form state + formatted document fields for Step 5 Badge rendering
     setRegistration({
       ...registration,
       ...formattedDoc,
