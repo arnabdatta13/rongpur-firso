@@ -1,16 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { AnimatePresence, motion } from "framer-motion";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db, firebaseInitialized } from "./firebase/config";
 
-import Header from "./components/Header";
-import ProgressStepper from "./components/ProgressStepper";
-import CategorySelection from "./components/CategorySelection";
-import ParticipantForm from "./components/ParticipantForm";
-import TeamMembers from "./components/TeamMembers";
-import RegistrationSummary from "./components/RegistrationSummary";
-import Confirmation from "./components/Confirmation";
-import LoadingScreen from "./components/LoadingScreen";
+import Navbar from "./components/Navbar";
+import HomePage from "./pages/HomePage";
+import RegistrationPage from "./pages/RegistrationPage";
 
 import { validateStep1, validateStep2, validateStep3, validateStep4 } from "./utils/validation";
 import { generateRegistrationId } from "./utils/registrationId";
@@ -55,6 +49,7 @@ const INITIAL_REGISTRATION_STATE = {
 };
 
 export default function App() {
+  const [activeTab, setActiveTab] = useState("home");
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errors, setErrors] = useState({});
@@ -144,12 +139,10 @@ export default function App() {
       discountPercent: registration.promo?.discountPercent || 0
     });
 
-    // Format exact Firestore document schema
     const formattedDoc = formatFirestoreDocument(registration, newRegId, calculatedFeeObj);
 
     let isSavedLocally = false;
 
-    // 1. Write to Firestore collection registrations
     if (firebaseInitialized && db) {
       try {
         const regCollectionRef = collection(db, "registrations");
@@ -157,7 +150,7 @@ export default function App() {
           ...formattedDoc,
           createdAt: serverTimestamp()
         });
-        console.log("🔥 Registration successfully saved to Firestore with exact schema:", newRegId);
+        console.log("🔥 Registration saved to Firestore:", newRegId);
       } catch (error) {
         console.warn("⚠️ Firestore write failed. Gracefully executing LocalStorage fallback.", error);
         isSavedLocally = true;
@@ -166,7 +159,6 @@ export default function App() {
       isSavedLocally = true;
     }
 
-    // 2. Persist in LocalStorage
     try {
       const existingListStr = localStorage.getItem("firso_rongpur_registrations");
       const existingList = existingListStr ? JSON.parse(existingListStr) : [];
@@ -196,90 +188,35 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const handleNavigate = (targetTab) => {
+    setActiveTab(targetTab);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
-    <div className="min-h-screen bg-[#050505] text-slate-100 selection:bg-red-600 selection:text-white font-sans pb-16">
-      {/* Background Red Neon Orbs */}
-      <div className="fixed top-1/4 left-10 w-96 h-96 bg-red-600/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="fixed bottom-1/4 right-10 w-96 h-96 bg-rose-700/10 rounded-full blur-3xl pointer-events-none" />
+    <div className="min-h-screen bg-[#0a0a0f] text-slate-100 selection:bg-red-600 selection:text-white font-sans cyber-grid">
+      {/* Navbar Header */}
+      <Navbar activeTab={activeTab} onNavigate={handleNavigate} />
 
-      {/* Main Container */}
-      <div className="relative z-10">
-        <Header />
-
-        <main className="max-w-6xl mx-auto px-4">
-          <ProgressStepper
+      {/* Main Content Pages */}
+      <div className="pt-6">
+        {activeTab === "home" ? (
+          <HomePage onNavigate={handleNavigate} />
+        ) : (
+          <RegistrationPage
             currentStep={currentStep}
-            isOlympiad={isOlympiad}
-            onStepClick={(stepNum) => setCurrentStep(stepNum)}
+            setCurrentStep={setCurrentStep}
+            registration={registration}
+            updateRegistration={updateRegistration}
+            errors={errors}
+            isSubmitting={isSubmitting}
+            handleStep1Next={handleStep1Next}
+            handleStep2Next={handleStep2Next}
+            handleStep3Next={handleStep3Next}
+            handleSubmit={handleSubmit}
+            handleReset={handleReset}
           />
-
-          {isSubmitting ? (
-            <LoadingScreen message="Submitting your FIRSO 2026 Registration..." />
-          ) : (
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={currentStep}
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -15 }}
-                transition={{ duration: 0.25, ease: "easeInOut" }}
-              >
-                {currentStep === 1 && (
-                  <CategorySelection
-                    registration={registration}
-                    onChange={updateRegistration}
-                    onNext={handleStep1Next}
-                    errors={errors}
-                  />
-                )}
-
-                {currentStep === 2 && (
-                  <ParticipantForm
-                    registration={registration}
-                    onChange={updateRegistration}
-                    onNext={handleStep2Next}
-                    onBack={() => setCurrentStep(1)}
-                    errors={errors}
-                  />
-                )}
-
-                {currentStep === 3 && (
-                  <TeamMembers
-                    registration={registration}
-                    onChange={updateRegistration}
-                    onNext={handleStep3Next}
-                    onBack={() => setCurrentStep(2)}
-                    errors={errors}
-                  />
-                )}
-
-                {currentStep === 4 && (
-                  <RegistrationSummary
-                    registration={registration}
-                    onChange={updateRegistration}
-                    onBack={() => setCurrentStep(isOlympiad ? 2 : 3)}
-                    onSubmit={handleSubmit}
-                    isSubmitting={isSubmitting}
-                    errors={errors}
-                  />
-                )}
-
-                {currentStep === 5 && (
-                  <Confirmation
-                    registration={registration}
-                    onReset={handleReset}
-                  />
-                )}
-              </motion.div>
-            </AnimatePresence>
-          )}
-        </main>
-
-        {/* Footer Branding */}
-        <footer className="mt-16 text-center text-xs text-slate-500 space-y-1 no-print">
-          <div>Fibonacci International Robot & STEM Olympiad (FIRSO) 2026 • Rongpur Division Campaign</div>
-          <div>Venue: United International University (UIU), Dhaka • 4 September 2026</div>
-        </footer>
+        )}
       </div>
     </div>
   );

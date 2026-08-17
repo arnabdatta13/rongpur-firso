@@ -20,6 +20,26 @@
   background-size: 40px 40px;
 }
 
+/* Infinite Right-To-Left Marquee Animation */
+@keyframes marqueeRightToLeft {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee-rtl {
+  display: flex;
+  width: max-content;
+  animation: marqueeRightToLeft 22s linear infinite;
+}
+
+.animate-marquee-rtl:hover {
+  animation-play-state: paused;
+}
+
 /* High-End Glassmorphism System */
 .glass-panel {
   background: rgba(12, 12, 16, 0.82);
