@@ -1,5 +1,6 @@
 import React from "react";
 import { AnimatePresence, motion } from "framer-motion";
+
 import CategorySelection from "../components/CategorySelection";
 import ParticipantForm from "../components/ParticipantForm";
 import TeamMembers from "../components/TeamMembers";
@@ -18,7 +19,7 @@ export default function RegistrationPage({
   handleStep2Next,
   handleStep3Next,
   handleSubmit,
-  handleReset
+  handleReset,
 }) {
   const isOlympiad = registration.category === "olympiads";
 
@@ -33,8 +34,12 @@ export default function RegistrationPage({
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -15 }}
-            transition={{ duration: 0.25, ease: "easeInOut" }}
+            transition={{
+              duration: 0.25,
+              ease: "easeInOut",
+            }}
           >
+            {/* STEP 1 — Category Selection */}
             {currentStep === 1 && (
               <CategorySelection
                 registration={registration}
@@ -44,6 +49,7 @@ export default function RegistrationPage({
               />
             )}
 
+            {/* STEP 2 — Participant Information */}
             {currentStep === 2 && (
               <ParticipantForm
                 registration={registration}
@@ -54,6 +60,7 @@ export default function RegistrationPage({
               />
             )}
 
+            {/* STEP 3 — Team Members */}
             {currentStep === 3 && (
               <TeamMembers
                 registration={registration}
@@ -64,6 +71,7 @@ export default function RegistrationPage({
               />
             )}
 
+            {/* STEP 4 — Registration Summary / Payment */}
             {currentStep === 4 && (
               <RegistrationSummary
                 registration={registration}
@@ -75,6 +83,7 @@ export default function RegistrationPage({
               />
             )}
 
+            {/* STEP 5 — Confirmation */}
             {currentStep === 5 && (
               <Confirmation
                 registration={registration}
