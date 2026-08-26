@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { CATEGORIES } from "../data/categories";
 import { TSHIRT_SIZES } from "../config/constants";
+import { OFFICIAL_RONGPUR_AMBASSADORS } from "../data/referralCodes";
 import { resolveReferralCode } from "../utils/referralResolver";
 import { User, Mail, Phone, School, GraduationCap, Shirt, Users, Tag, ArrowRight, ArrowLeft, CheckCircle2, AlertCircle, Zap } from "lucide-react";
 
@@ -44,16 +45,16 @@ export default function ParticipantForm({
         class: "Class 10",
         tshirtSize: "L"
       },
-      referralCodeEntered: "TAHSIN"
+      referralCodeEntered: "Samiya786"
     });
-    handleReferralChange("TAHSIN");
+    handleReferralChange("Samiya786");
   };
 
   const handleReferralChange = async (val) => {
     onChange({ referralCodeEntered: val });
     if (!val.trim()) {
       setReferralStatus({ loading: false, message: "", isValid: null });
-      onChange({ referralCode: "", referralDivision: "Rongpur" });
+      onChange({ referralCode: "Rongpur-UA", referralDivision: "Rongpur" });
       return;
     }
 
@@ -76,7 +77,7 @@ export default function ParticipantForm({
         message: res.error || "Invalid referral code.",
         isValid: false
       });
-      onChange({ referralCode: "", referralDivision: "Rongpur" });
+      onChange({ referralCode: "Rongpur-UA", referralDivision: "Rongpur" });
     }
   };
 
@@ -292,55 +293,61 @@ export default function ParticipantForm({
 
         </div>
 
-        {/* Referral / Campus Ambassador Code Input */}
-        <div className="pt-4 border-t border-white/10 space-y-2">
+        {/* Referral / Campus Ambassador Code Select Dropdown & Manual Input */}
+        <div className="pt-4 border-t border-white/10 space-y-3">
           <label className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center justify-between">
             <span className="flex items-center gap-1.5">
               <Tag className="w-3.5 h-3.5 text-amber-400" />
-              Referral Code (Optional)
+              Referral Code / Campus Ambassador (Optional)
             </span>
-            <span className="text-[10px] text-slate-400 font-normal">Auto-mapped to RONGPUR-UA &lt;CODE&gt;</span>
+            <span className="text-[10px] text-slate-400 font-normal">Rongpur Division Campaign</span>
           </label>
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="Enter ANY referral code (e.g. TAHSIN, RAHIM, CA-TAHSIN)"
+
+          {/* Dropdown Select Menu */}
+          <div className="space-y-2">
+            <select
               value={registration.referralCodeEntered || ""}
               onChange={(e) => handleReferralChange(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl glass-input text-sm font-medium uppercase tracking-wider pr-32"
-            />
-            {referralStatus.loading && (
-              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-red-400 font-medium">
-                Checking...
-              </span>
-            )}
+              className="w-full px-4 py-3 rounded-xl glass-input text-sm font-semibold bg-[#0A0A0C] text-white cursor-pointer"
+            >
+              <option value="">-- Select Official Campus Ambassador Code --</option>
+              {OFFICIAL_RONGPUR_AMBASSADORS.map((code) => (
+                <option key={code} value={code}>
+                  {code}
+                </option>
+              ))}
+            </select>
           </div>
 
-          {/* Referral Suggestion Chips */}
-          <div className="flex items-center gap-2 pt-1 text-[11px] text-slate-400">
-            <span>Tap to apply code:</span>
-            {["TAHSIN", "RAHIM", "CA-TAHSIN"].map((sample) => (
-              <button
-                key={sample}
-                type="button"
-                onClick={() => handleReferralChange(sample)}
-                className="px-2 py-0.5 rounded bg-red-950 text-red-300 border border-red-500/30 font-bold hover:bg-red-900 transition-colors"
-              >
-                {sample}
-              </button>
-            ))}
+          {/* Or Type Custom Code */}
+          <div className="space-y-1">
+            <div className="text-[11px] font-medium text-slate-400">Or type custom referral code:</div>
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="Type custom referral code..."
+                value={registration.referralCodeEntered || ""}
+                onChange={(e) => handleReferralChange(e.target.value)}
+                className="w-full px-4 py-2.5 rounded-xl glass-input text-xs font-medium uppercase tracking-wider"
+              />
+              {referralStatus.loading && (
+                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-red-400 font-medium">
+                  Checking...
+                </span>
+              )}
+            </div>
           </div>
 
           {referralStatus.message && (
             <div
-              className={`text-xs font-semibold px-3 py-1.5 rounded-lg flex items-center gap-2 ${
+              className={`text-xs font-semibold px-3 py-2 rounded-xl flex items-center gap-2 ${
                 referralStatus.isValid
                   ? "bg-emerald-500/15 border border-emerald-400/30 text-emerald-300"
                   : "bg-red-500/15 border border-red-400/30 text-red-300"
               }`}
             >
-              {referralStatus.isValid ? <CheckCircle2 className="w-3.5 h-3.5" /> : <AlertCircle className="w-3.5 h-3.5" />}
-              {referralStatus.message}
+              {referralStatus.isValid ? <CheckCircle2 className="w-4 h-4 shrink-0" /> : <AlertCircle className="w-4 h-4 shrink-0" />}
+              <span>{referralStatus.message}</span>
             </div>
           )}
         </div>
