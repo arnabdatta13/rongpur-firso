@@ -1,4 +1,4 @@
-// Pre-configured Rongpur Division Referral Code Mappings & Official Ambassador List
+// Pre-configured Rongpur Division Referral Code Mappings & Official Ambassador List (Deduplicated)
 
 export const OFFICIAL_RONGPUR_AMBASSADORS = [
   "Samiya786",
@@ -14,7 +14,11 @@ export const OFFICIAL_RONGPUR_AMBASSADORS = [
   "Anusha 142",
   "Mushfiq21",
   "Tiham21",
-  "sharafat312"
+  "sharafat312",
+  "mim 01741",
+  "nibir420",
+  "Ankita 12",
+  "M.Maisha"
 ];
 
 export const RONGPUR_REFERRAL_CODES = {
@@ -32,5 +36,9 @@ export const RONGPUR_REFERRAL_CODES = {
   "MUSHFIQ21": { publicCode: "Mushfiq21", storedCode: "RONGPUR-UA MUSHFIQ21", division: "Rongpur", active: true },
   "TIHAM21": { publicCode: "Tiham21", storedCode: "RONGPUR-UA TIHAM21", division: "Rongpur", active: true },
   "SHARAFAT312": { publicCode: "sharafat312", storedCode: "RONGPUR-UA SHARAFAT312", division: "Rongpur", active: true },
+  "MIM 01741": { publicCode: "mim 01741", storedCode: "RONGPUR-UA MIM 01741", division: "Rongpur", active: true },
+  "NIBIR420": { publicCode: "nibir420", storedCode: "RONGPUR-UA NIBIR420", division: "Rongpur", active: true },
+  "ANKITA 12": { publicCode: "Ankita 12", storedCode: "RONGPUR-UA ANKITA 12", division: "Rongpur", active: true },
+  "M.MAISHA": { publicCode: "M.Maisha", storedCode: "RONGPUR-UA M.MAISHA", division: "Rongpur", active: true },
   "CA-TAHSIN": { publicCode: "CA-TAHSIN", storedCode: "RONGPUR-UA CA-TAHSIN", division: "Rongpur", active: true }
 };

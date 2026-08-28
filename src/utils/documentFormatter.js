@@ -1,6 +1,7 @@
 /**
  * Formats the registration state into the exact Firestore document schema requested by the user.
  * If refer code is left blank, referCode defaults to "Rongpur-UA" in the database.
+ * If no promo code is applied, appliedPromoCode is saved as "" (empty string) and discountPercent is 0.
  */
 export function formatFirestoreDocument(registration, newRegId, calculatedFeeObj) {
   const leader = registration.leader || {};
@@ -36,18 +37,23 @@ export function formatFirestoreDocument(registration, newRegId, calculatedFeeObj
   }
 
   // Stored referCode logic:
-  // If participant typed a referral code, map to "RONGPUR-UA <CODE>" (or resolved storedCode).
+  // If participant typed/selected a referral code, map to "RONGPUR-UA <CODE>" (or resolved storedCode).
   // If participant left referral code blank, ALWAYS save "Rongpur-UA" in database.
-  const enteredReferral = (registration.referralCodeEntered || "").trim().toUpperCase();
+  const enteredReferral = (registration.referralCodeEntered || "").trim();
   let referCode = registration.referralCode;
 
   if (!referCode || referCode.trim() === "") {
     if (enteredReferral) {
-      referCode = `RONGPUR-UA ${enteredReferral}`;
+      referCode = `RONGPUR-UA ${enteredReferral.toUpperCase()}`;
     } else {
       referCode = "Rongpur-UA";
     }
   }
+
+  // Applied Promo Code logic:
+  // If no promo code was applied, save as "" (empty string) and discountPercent: 0
+  const appliedPromo = (registration.promo?.appliedPromoCode || "").trim();
+  const discountVal = appliedPromo ? (Number(registration.promo?.discountPercent) || 0) : 0;
 
   return {
     registrationId: newRegId,
@@ -78,10 +84,10 @@ export function formatFirestoreDocument(registration, newRegId, calculatedFeeObj
       tShirtSize: m.tshirtSize || ""
     })),
     referCode,
-    referralCodeEntered: registration.referralCodeEntered || "",
+    referralCodeEntered: enteredReferral,
     referralDivision: registration.referralDivision || "Rongpur",
-    appliedPromoCode: registration.promo?.appliedPromoCode || "",
-    discountPercent: Number(registration.promo?.discountPercent) || 0,
+    appliedPromoCode: appliedPromo,
+    discountPercent: discountVal,
     originalFee: calculatedFeeObj.originalFee,
     fee: calculatedFeeObj.fee,
     paymentMethod: registration.payment?.method || "",
