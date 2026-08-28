@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { EVENT_DETAILS, PARTICIPATING_COUNTRIES, PARTNER_UNIVERSITIES, FAQS } from "../config/constants";
 import { 
-  Trophy, Flame, Sparkles, ArrowRight, BookOpen, Globe, Bot, Calendar, 
-  MapPin, ShieldCheck, Download, ChevronDown, ChevronUp, ExternalLink, 
-  Award, CheckCircle2, Star, Zap, GraduationCap, Utensils, Shirt, Tag, FileText
+  Trophy, Flame, BookOpen, Globe, Bot, Calendar, 
+  MapPin, ShieldCheck, ChevronDown, ChevronUp, ExternalLink, 
+  Award, GraduationCap, FileText
 } from "lucide-react";
 
-export default function HomePage({ onNavigate }) {
+export default function HomePage() {
   const [openFaqIndex, setOpenFaqIndex] = useState(0);
 
   const toggleFaq = (index) => {
@@ -17,11 +17,10 @@ export default function HomePage({ onNavigate }) {
     window.open(url, "_blank");
   };
 
-  // Duplicated country list for smooth infinite right-to-left marquee loop
   const marqueeCountries = [...PARTICIPATING_COUNTRIES, ...PARTICIPATING_COUNTRIES];
 
   return (
-    <div className="space-y-24 pb-20 animate-fadeIn">
+    <div id="home" className="space-y-24 pb-20 animate-fadeIn">
       
       {/* ========================================================================= */}
       {/* SECTION 1: HERO SECTION (2-Column Grid)                                   */}
@@ -34,7 +33,7 @@ export default function HomePage({ onNavigate }) {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
           
-          {/* Left Column: Headline & CTAs */}
+          {/* Left Column: Headline & Official Rulebook CTA */}
           <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
             
             {/* Pulsing Pill Badge */}
@@ -51,26 +50,17 @@ export default function HomePage({ onNavigate }) {
 
             {/* Subheadline */}
             <p className="text-slate-300 text-base sm:text-lg font-medium leading-relaxed max-w-2xl mx-auto lg:mx-0">
-              Represent <span className="text-white font-bold">Rongpur Division</span> at the Bangladesh National Selection Round at <span className="text-red-400 font-bold">UIU Dhaka ({EVENT_DETAILS.date})</span> & qualify for the Global Final Round in <span className="text-amber-400 font-bold">Rome, Italy ({EVENT_DETAILS.romeDates})</span>!
+              Representing <span className="text-white font-bold">Rongpur Division</span> at the Bangladesh National Selection Round at <span className="text-red-400 font-bold">UIU Dhaka ({EVENT_DETAILS.date})</span> & Global Final Round in <span className="text-amber-400 font-bold">Rome, Italy ({EVENT_DETAILS.romeDates})</span>!
             </p>
 
-            {/* CTA Button Group */}
-            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
-              <button
-                type="button"
-                onClick={() => onNavigate("registration")}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-9 py-4 rounded-2xl bg-gradient-to-r from-red-600 via-rose-600 to-red-700 hover:from-red-500 hover:to-rose-500 text-white font-black text-base shadow-xl shadow-red-600/40 transition-all transform hover:-translate-y-0.5 active:translate-y-0"
-              >
-                <span>Register Now</span>
-                <ArrowRight className="w-5 h-5" />
-              </button>
-
+            {/* Rulebook Download Button */}
+            <div className="flex items-center justify-center lg:justify-start gap-4 pt-2">
               <button
                 type="button"
                 onClick={() => handleOpenLink(EVENT_DETAILS.rulebooksUrl)}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-2xl bg-slate-900/90 hover:bg-slate-800 text-slate-200 font-bold text-sm border border-red-500/30 transition-all"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-2xl bg-gradient-to-r from-red-600 via-rose-600 to-red-700 hover:from-red-500 hover:to-rose-500 text-white font-black text-base shadow-xl shadow-red-600/40 transition-all transform hover:-translate-y-0.5 active:translate-y-0"
               >
-                <BookOpen className="w-4 h-4 text-red-400" />
+                <BookOpen className="w-5 h-5 text-white" />
                 <span>Download Official Rulebook 📖</span>
               </button>
             </div>
@@ -106,7 +96,7 @@ export default function HomePage({ onNavigate }) {
                 <p className="text-xs text-slate-400">Rongpur Division Selection Campaign</p>
               </div>
 
-              {/* Floating Stat Badges (Cleaned up - Removed UK Summer Camp) */}
+              {/* Floating Stat Badges */}
               <div className="grid grid-cols-2 gap-3 text-xs pt-2">
                 <div className="glass-card p-3.5 rounded-2xl border border-red-500/30 text-left">
                   <div className="text-[10px] uppercase font-bold text-amber-400">Global Final</div>
@@ -155,7 +145,7 @@ export default function HomePage({ onNavigate }) {
       </section>
 
       {/* ========================================================================= */}
-      {/* SECTION 3: PARTICIPATING COUNTRIES (RIGHT-TO-LEFT INFINITE SLIDER)      */}
+      {/* SECTION 3: PARTICIPATING COUNTRIES SLIDER                                 */}
       {/* ========================================================================= */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         <div className="text-center space-y-1">
@@ -191,38 +181,23 @@ export default function HomePage({ onNavigate }) {
       {/* ========================================================================= */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="glass-panel rounded-3xl p-8 sm:p-12 border-2 border-red-500/35 relative overflow-hidden bg-gradient-to-r from-red-950/60 via-slate-950 to-rose-950/60">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center relative z-10">
-            
-            <div className="md:col-span-8 space-y-4">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-600/20 text-red-300 text-xs font-bold uppercase tracking-wider">
-                <MapPin className="w-3.5 h-3.5" />
-                HOST VENUE: UNITED INTERNATIONAL UNIVERSITY (UIU)
-              </div>
-              <h2 className="text-2xl sm:text-4xl font-black text-white">
-                Rongpur Division Selection Campaign 2026
-              </h2>
-              <p className="text-slate-300 text-sm sm:text-base leading-relaxed font-medium">
-                The Fibonacci International Robot & STEM Olympiad (FIRSO) brings together the sharpest young minds in Bangladesh. Participants competing from Rongpur Division will battle for national recognition at UIU Dhaka on <span className="text-white font-bold">4 September 2026</span>, paving the path to Rome, Italy!
-              </p>
+          <div className="space-y-4 text-center max-w-3xl mx-auto">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-600/20 text-red-300 text-xs font-bold uppercase tracking-wider">
+              <MapPin className="w-3.5 h-3.5" />
+              HOST VENUE: UNITED INTERNATIONAL UNIVERSITY (UIU)
             </div>
-
-            <div className="md:col-span-4 text-center md:text-right">
-              <button
-                type="button"
-                onClick={() => onNavigate("registration")}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white font-black text-sm shadow-xl shadow-red-600/30 transition-all"
-              >
-                <span>Register Your Team</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            </div>
-
+            <h2 className="text-2xl sm:text-4xl font-black text-white">
+              Rongpur Division Selection Campaign 2026
+            </h2>
+            <p className="text-slate-300 text-sm sm:text-base leading-relaxed font-medium">
+              The Fibonacci International Robot & STEM Olympiad (FIRSO) brings together the sharpest young minds in Bangladesh. Participants competing from Rongpur Division will battle for national recognition at UIU Dhaka on <span className="text-white font-bold">4 September 2026</span>, paving the path to Rome, Italy!
+            </p>
           </div>
         </div>
       </section>
 
       {/* ========================================================================= */}
-      {/* SECTION 5: COMPETITION SEGMENT CARDS (7 Category Cards Grid)              */}
+      {/* SECTION 5: COMPETITION SEGMENT CARDS                                      */}
       {/* ========================================================================= */}
       <section id="categories" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         <div className="text-center max-w-3xl mx-auto space-y-3">
@@ -310,17 +285,6 @@ export default function HomePage({ onNavigate }) {
               </div>
 
             </div>
-
-            <div className="pt-4 border-t border-white/10 flex justify-end">
-              <button
-                type="button"
-                onClick={() => onNavigate("registration")}
-                className="px-8 py-3 rounded-xl bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 text-white font-bold text-xs flex items-center gap-2 shadow-lg shadow-red-600/30"
-              >
-                <span>Register for Olympiads</span>
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            </div>
           </div>
 
           {/* Cards 2 to 7: Remaining Competition Categories */}
@@ -386,8 +350,8 @@ export default function HomePage({ onNavigate }) {
                 <div className="text-xs font-bold text-red-400">{cat.fee}</div>
               </div>
 
-              <div className="pt-4 border-t border-white/10 space-y-3">
-                {cat.hasRulebook && (
+              {cat.hasRulebook && (
+                <div className="pt-4 border-t border-white/10">
                   <button
                     type="button"
                     onClick={() => handleOpenLink(EVENT_DETAILS.rulebooksUrl)}
@@ -396,17 +360,8 @@ export default function HomePage({ onNavigate }) {
                     <FileText className="w-3.5 h-3.5 text-red-400" />
                     <span>Download PDF Rulebook</span>
                   </button>
-                )}
-
-                <button
-                  type="button"
-                  onClick={() => onNavigate("registration")}
-                  className="w-full py-2.5 rounded-xl bg-red-600 hover:bg-red-500 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-md shadow-red-600/20"
-                >
-                  <span>Register Category</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </div>
+                </div>
+              )}
             </div>
           ))}
 
@@ -414,7 +369,7 @@ export default function HomePage({ onNavigate }) {
       </section>
 
       {/* ========================================================================= */}
-      {/* SECTION 6: PARTICIPANT BENEFITS (Grid Layout)                            */}
+      {/* SECTION 6: PARTICIPANT BENEFITS                                          */}
       {/* ========================================================================= */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         <div className="text-center max-w-2xl mx-auto space-y-2">
@@ -456,7 +411,7 @@ export default function HomePage({ onNavigate }) {
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 relative">
           {[
-            { step: "01", date: "Now Open", title: "Rongpur Registration", desc: "Submit entry online." },
+            { step: "01", date: "Campaign Phase", title: "Rongpur Division", desc: "Regional Campaign." },
             { step: "02", date: "4 Sept 2026", title: "National Selection", desc: "UIU, Dhaka Event." },
             { step: "03", date: "Sept 2026", title: "Winners Announced", desc: "Delegates awarded." },
             { step: "04", date: "Nov 2026", title: "Rome Global Final", desc: "Rome, Italy Showdown." }
@@ -479,7 +434,7 @@ export default function HomePage({ onNavigate }) {
       <section id="faq" className="max-w-4xl mx-auto px-4 space-y-8">
         <div className="text-center space-y-2">
           <h2 className="text-3xl font-black text-white">Frequently Asked <span className="gradient-text">Questions</span></h2>
-          <p className="text-slate-300 text-sm">Everything you need to know about FIRSO 2026 registration.</p>
+          <p className="text-slate-300 text-sm">Everything you need to know about FIRSO 2026.</p>
         </div>
 
         <div className="space-y-4">
@@ -507,35 +462,13 @@ export default function HomePage({ onNavigate }) {
       </section>
 
       {/* ========================================================================= */}
-      {/* SECTION 9: REVENUE & SELECTION OPPORTUNITIES                              */}
-      {/* ========================================================================= */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="glass-panel rounded-3xl p-8 sm:p-12 border border-red-500/35 text-center space-y-6 bg-gradient-to-b from-red-950/60 to-slate-950">
-          <h2 className="text-2xl sm:text-4xl font-black text-white">
-            Ready to Represent <span className="gradient-text">Rongpur Division?</span>
-          </h2>
-          <p className="text-slate-300 text-sm max-w-xl mx-auto font-medium">
-            Join hundreds of STEM participants at United International University (UIU), Dhaka on 4 September 2026.
-          </p>
-          <button
-            type="button"
-            onClick={() => onNavigate("registration")}
-            className="inline-flex items-center gap-2 px-9 py-4 rounded-2xl bg-gradient-to-r from-red-600 to-rose-600 text-white font-black text-base shadow-xl shadow-red-600/40"
-          >
-            <span>Start Registration Now</span>
-            <ArrowRight className="w-5 h-5" />
-          </button>
-        </div>
-      </section>
-
-      {/* ========================================================================= */}
-      {/* SECTION 10: FOOTER                                                        */}
+      {/* SECTION 9: FOOTER                                                        */}
       {/* ========================================================================= */}
       <footer className="max-w-7xl mx-auto px-4 border-t border-white/10 pt-10 text-xs text-slate-400 space-y-6">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="font-bold text-white">FIRSO 2026 • Rongpur Division Campaign</div>
           <div className="flex items-center gap-4">
-            <span>WhatsApp Support: <a href={`https://wa.me/${EVENT_DETAILS.paymentNumber}`} target="_blank" rel="noreferrer" className="text-red-400 font-bold">{EVENT_DETAILS.paymentNumber}</a></span>
+            <span>Official Info Contact: <a href={`https://wa.me/${EVENT_DETAILS.paymentNumber}`} target="_blank" rel="noreferrer" className="text-red-400 font-bold">{EVENT_DETAILS.paymentNumber}</a></span>
           </div>
         </div>
         <div className="text-center text-[11px] text-slate-500">

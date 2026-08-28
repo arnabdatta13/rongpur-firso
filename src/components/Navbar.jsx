@@ -1,13 +1,11 @@
 import React, { useState } from "react";
-import { EVENT_DETAILS } from "../config/constants";
-import { Flame, Trophy, Menu, X, ArrowRight, BookOpen, Layers, HelpCircle, Calendar } from "lucide-react";
+import { Trophy, Menu, X, Layers, HelpCircle, Calendar } from "lucide-react";
 
-export default function Navbar({ activeTab = "home", onNavigate }) {
+export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navItems = [
-    { id: "home", label: "Home", icon: Trophy },
-    { id: "registration", label: "Registration", icon: Flame },
+    { id: "home", label: "Home", icon: Trophy, anchor: "#home" },
     { id: "categories", label: "Categories", icon: Layers, anchor: "#categories" },
     { id: "timeline", label: "Timeline", icon: Calendar, anchor: "#timeline" },
     { id: "faq", label: "FAQ", icon: HelpCircle, anchor: "#faq" }
@@ -15,18 +13,8 @@ export default function Navbar({ activeTab = "home", onNavigate }) {
 
   const handleItemClick = (item) => {
     if (item.anchor) {
-      if (activeTab !== "home") {
-        onNavigate("home");
-        setTimeout(() => {
-          const el = document.querySelector(item.anchor);
-          if (el) el.scrollIntoView({ behavior: "smooth" });
-        }, 100);
-      } else {
-        const el = document.querySelector(item.anchor);
-        if (el) el.scrollIntoView({ behavior: "smooth" });
-      }
-    } else {
-      onNavigate(item.id);
+      const el = document.querySelector(item.anchor);
+      if (el) el.scrollIntoView({ behavior: "smooth" });
     }
     setMobileMenuOpen(false);
   };
@@ -38,7 +26,7 @@ export default function Navbar({ activeTab = "home", onNavigate }) {
           
           {/* Brand Logo */}
           <div
-            onClick={() => onNavigate("home")}
+            onClick={() => handleItemClick({ anchor: "#home" })}
             className="cursor-pointer flex items-center gap-3 group"
           >
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-red-600 to-rose-700 flex items-center justify-center text-white font-black shadow-lg shadow-red-600/40 group-hover:scale-105 transition-transform">
@@ -58,38 +46,21 @@ export default function Navbar({ activeTab = "home", onNavigate }) {
           </div>
 
           {/* Desktop Nav Links */}
-          <div className="hidden md:flex items-center gap-1">
+          <div className="hidden md:flex items-center gap-2">
             {navItems.map((item) => {
               const Icon = item.icon;
-              const isActive = activeTab === item.id && !item.anchor;
               return (
                 <button
                   key={item.id}
                   type="button"
                   onClick={() => handleItemClick(item)}
-                  className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
-                    isActive
-                      ? "bg-red-600/20 text-red-400 border border-red-500/30 shadow-md shadow-red-600/20"
-                      : "text-slate-300 hover:text-white hover:bg-slate-900/60"
-                  }`}
+                  className="px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 text-slate-300 hover:text-white hover:bg-slate-900/60"
                 >
                   <Icon className="w-3.5 h-3.5" />
                   <span>{item.label}</span>
                 </button>
               );
             })}
-          </div>
-
-          {/* Right CTA Button */}
-          <div className="hidden md:flex items-center gap-3">
-            <button
-              type="button"
-              onClick={() => onNavigate("registration")}
-              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white font-extrabold text-xs shadow-lg shadow-red-600/30 transition-all transform hover:-translate-y-0.5 active:translate-y-0"
-            >
-              <span>Register Now</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
           </div>
 
           {/* Mobile Menu Toggle Button */}
@@ -111,37 +82,18 @@ export default function Navbar({ activeTab = "home", onNavigate }) {
         <div className="md:hidden glass-panel border-b border-red-500/30 px-4 pt-2 pb-6 space-y-2 animate-fadeIn">
           {navItems.map((item) => {
             const Icon = item.icon;
-            const isActive = activeTab === item.id && !item.anchor;
             return (
               <button
                 key={item.id}
                 type="button"
                 onClick={() => handleItemClick(item)}
-                className={`w-full text-left px-4 py-3 rounded-xl text-sm font-bold flex items-center gap-2.5 transition-all ${
-                  isActive
-                    ? "bg-red-600/20 text-red-400 border border-red-500/30"
-                    : "text-slate-300 hover:bg-slate-900"
-                }`}
+                className="w-full text-left px-4 py-3 rounded-xl text-sm font-bold flex items-center gap-2.5 transition-all text-slate-300 hover:bg-slate-900"
               >
                 <Icon className="w-4 h-4 text-red-400" />
                 <span>{item.label}</span>
               </button>
             );
           })}
-
-          <div className="pt-2">
-            <button
-              type="button"
-              onClick={() => {
-                onNavigate("registration");
-                setMobileMenuOpen(false);
-              }}
-              className="w-full py-3.5 rounded-xl bg-gradient-to-r from-red-600 to-rose-600 text-white font-extrabold text-sm flex items-center justify-center gap-2 shadow-lg shadow-red-600/30"
-            >
-              <span>Register Now</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
-          </div>
         </div>
       )}
     </nav>
