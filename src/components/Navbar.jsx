@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Trophy, Menu, X, Layers, HelpCircle, Calendar } from "lucide-react";
+import { EVENT_DETAILS } from "../config/constants";
+import { Trophy, Menu, X, Layers, HelpCircle, Calendar, ArrowRight } from "lucide-react";
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -16,6 +17,11 @@ export default function Navbar() {
       const el = document.querySelector(item.anchor);
       if (el) el.scrollIntoView({ behavior: "smooth" });
     }
+    setMobileMenuOpen(false);
+  };
+
+  const handleRegisterClick = () => {
+    window.open(EVENT_DETAILS.registrationGoogleFormUrl, "_blank");
     setMobileMenuOpen(false);
   };
 
@@ -63,6 +69,18 @@ export default function Navbar() {
             })}
           </div>
 
+          {/* Right Register CTA Button */}
+          <div className="hidden md:flex items-center gap-3">
+            <button
+              type="button"
+              onClick={handleRegisterClick}
+              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white font-extrabold text-xs shadow-lg shadow-red-600/30 transition-all transform hover:-translate-y-0.5 active:translate-y-0"
+            >
+              <span>Register Now</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+
           {/* Mobile Menu Toggle Button */}
           <div className="md:hidden flex items-center">
             <button
@@ -94,6 +112,17 @@ export default function Navbar() {
               </button>
             );
           })}
+
+          <div className="pt-2">
+            <button
+              type="button"
+              onClick={handleRegisterClick}
+              className="w-full py-3.5 rounded-xl bg-gradient-to-r from-red-600 to-rose-600 text-white font-extrabold text-sm flex items-center justify-center gap-2 shadow-lg shadow-red-600/30"
+            >
+              <span>Register Now</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
         </div>
       )}
     </nav>

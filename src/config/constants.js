@@ -7,6 +7,7 @@ export const EVENT_DETAILS = {
   venue: "United International University (UIU), Dhaka",
   romeDates: "30 Nov – 4 Dec 2026",
   whatsappGroupUrl: "https://chat.whatsapp.com/FIRSO2026RongpurDivision",
+  registrationGoogleFormUrl: "https://forms.gle/W5Aw1HMUB8wE29F98",
   paymentNumber: "01957684794",
   paymentMethods: ["bKash", "Nagad"],
   syllabusDriveUrl: "https://drive.google.com/drive/folders/firso-2026-syllabus",
@@ -66,8 +67,8 @@ export const FAQS = [
     answer: "Olympiads (Math & Science) are solo participation only. Entrepreneurship and Direct Robotics allow solo participation or teams up to 5 members."
   },
   {
-    question: "How do I pay the registration fee?",
-    answer: "You can pay using bKash or Nagad Send Money to official payment number 01957684794. Simply enter your 11-digit sender mobile number and Transaction ID in the registration wizard."
+    question: "Where does the Register button take me?",
+    answer: "Clicking the Register button opens our official registration portal at https://forms.gle/W5Aw1HMUB8wE29F98."
   },
   {
     question: "Where can I find the official syllabus and mock test portals?",

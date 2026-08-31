@@ -24,11 +24,6 @@ SMTP_PORT = 587
 
 participants = [
     {
-        "name": "MD SIFAT HOSSEN",
-        "email": "sifathossen710@gmail.com",
-        "presentation_time": "6:00 PM – 6:20 PM",
-    },
-    {
         "name": "Zarif Hasin",
         "email": "zarifhasin@gmail.com",
         "presentation_time": "6:30 PM – 6:50 PM",
@@ -44,40 +39,17 @@ participants = [
         "presentation_time": "7:30 PM – 7:50 PM",
     },
     {
-        "name": "Md.Khalid Al-Amin Rafi",
-        "email": "rafi44599@gmail.com",
-        "presentation_time": "8:00 PM – 8:20 PM",
-    },
-    {
         "name": "Dibya Joti Saha (Arka)",
         "email": "arka07saha@gmail.com",
         "presentation_time": "8:30 PM – 8:50 PM",
     },
-    {
-        "name": "Mohammad Safiul Faruk Faiyaz",
-        "email": "safiulfaiyaz@gmail.com",
-        "presentation_time": "9:00 PM – 9:20 PM",
-    },
+
     {
         "name": "Sheikh Aroshi Riza",
         "email": "rizarosh9@gmail.com",
         "presentation_time": "9:30 PM – 9:50 PM",
     },
-    {
-        "name": "Toshio Shyki Orpon",
-        "email": "orponpro@gmail.com",
-        "presentation_time": "10:00 PM – 10:20 PM",
-    },
-    {
-        "name": "Tahasin Al Mahabi",
-        "email": "mahabitam123@gmail.com",
-        "presentation_time": "10:30 PM – 10:50 PM",
-    },
-    {
-        "name": "Prantika Sarkar",
-        "email": "prantikas107@gmail.com",
-        "presentation_time": "11:00 PM – 11:20 PM",
-    },
+
 ]
 
 
